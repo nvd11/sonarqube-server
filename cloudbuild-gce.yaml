@@ -18,7 +18,7 @@ steps:
     - |
       set -x
       VM_STATUS=$(gcloud compute instances describe ${_VM_HOST} --zone=europe-west2-c --format='value(status)' 2>/dev/null || true)
-      if [ "$VM_STATUS" != "RUNNING" ]; then
+      if [ "$$$VM_STATUS" != "RUNNING" ]; then
         echo "VM ${_VM_HOST} was not running. Starting now..."
         gcloud compute instances start ${_VM_HOST} --zone=europe-west2-c
       else
