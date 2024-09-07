@@ -10,6 +10,24 @@ steps:
   args: [ 'push', 'europe-west2-docker.pkg.dev/$PROJECT_ID/my-docker-repo/${_APP_NAME}:${_APP_TAG}']
 
 
+  # to prepare ssh private key file
+- id: prepare ssh private key file
+  name: 'ubuntu'
+  entrypoint: bash
+  args:
+    - '-c'
+    - |
+      echo $$SSH_PRIVATE_KEY | cut -c 1-30
+      echo $$SSH_PRIVATE_KEY > /workspace/ssh_key_file
+      echo $$SSH_PUBLIC_KEY > /workspace/ssh_key_file.pub
+      chmod 600 /workspace/ssh_key_file
+      chmod 600 /workspace/ssh_key_file.pub
+  secretEnv:
+    - 'SSH_PRIVATE_KEY'
+    - 'SSH_PUBLIC_KEY'
+
+
+
 # https://stackoverflow.com/questions/68779751/error-publishing-source-code-from-cloud-build-to-a-bucket-using-triggers
 logsBucket: gs://jason-hsbc_cloudbuild/logs/
 options: # https://cloud.google.com/cloud-build/docs/build-config#options
@@ -18,4 +36,4 @@ options: # https://cloud.google.com/cloud-build/docs/build-config#options
 substitutions:
   _APP_NAME: sonarqube-server
   _APP_TAG: latest
-  _VPC_CONNECTOR: vpc-con
+  _VM_HOST: "tf-vpc0-subnet0-vm0"
