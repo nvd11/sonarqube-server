@@ -1,0 +1,21 @@
+steps:
+
+# https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values
+- id: build docker image
+  name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'europe-west2-docker.pkg.dev/$PROJECT_ID/my-docker-repo/${_APP_NAME}:${_APP_TAG}', '.']
+
+- id: upload docker image to GAR
+  name: 'gcr.io/cloud-builders/docker'
+  args: [ 'push', 'europe-west2-docker.pkg.dev/$PROJECT_ID/my-docker-repo/${_APP_NAME}:${_APP_TAG}']
+
+
+# https://stackoverflow.com/questions/68779751/error-publishing-source-code-from-cloud-build-to-a-bucket-using-triggers
+logsBucket: gs://jason-hsbc_cloudbuild/logs/
+options: # https://cloud.google.com/cloud-build/docs/build-config#options
+  logging: GCS_ONLY # or CLOUD_LOGGING_ONLY https://cloud.google.com/cloud-build/docs/build-config#logging
+
+substitutions:
+  _APP_NAME: sonarqube-server
+  _APP_TAG: latest
+  _VPC_CONNECTOR: vpc-con
