@@ -58,5 +58,5 @@ substitutions:
   _APP_NAME: sonarqube-server
   _APP_TAG: latest
   _VM_HOST: "tf-vpc0-subnet0-vm0"
-  _PORT: 9000
-  _CONTAINER_PORT: 9000
+  _PORT: "9000"
+  _CONTAINER_PORT: "9000"
