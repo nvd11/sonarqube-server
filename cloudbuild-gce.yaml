@@ -33,6 +33,14 @@ logsBucket: gs://jason-hsbc_cloudbuild/logs/
 options: # https://cloud.google.com/cloud-build/docs/build-config#options
   logging: GCS_ONLY # or CLOUD_LOGGING_ONLY https://cloud.google.com/cloud-build/docs/build-config#logging
 
+# to define
+availableSecrets:
+  secretManager:
+    - versionName: projects/$PROJECT_ID/secrets/gateman-private-ssh-key/versions/latest
+      env: 'SSH_PRIVATE_KEY'
+    - versionName: projects/$PROJECT_ID/secrets/gateman-public-ssh-key/versions/latest
+      env: 'SSH_PUBLIC_KEY'
+
 substitutions:
   _APP_NAME: sonarqube-server
   _APP_TAG: latest
