@@ -1,3 +1,3 @@
 FROM sonarqube:10.6-community
 
-CMD ["sh", "-c", "exec \"$@\"", "sh"]
+ENTRYPOINT ["/opt/sonarqube/docker/entrypoint.sh"]
